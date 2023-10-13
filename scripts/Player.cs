@@ -16,9 +16,16 @@ public partial class Player : CharacterBody2D
     }
 
 
+    public override void _PhysicsProcess(double delta)
+    {
+        HandleDirection();
+        HandleMove();
+        HandleAnimation();
+    }
+
     public void HandleDirection()
     {
-        Vector2 inputDirection = Input.GetVector("my_left","my_right","my_up","my_down");
+        Vector2 inputDirection = Input.GetVector("my_left", "my_right", "my_up", "my_down");
         moveDirection = inputDirection.Normalized();
     }
 
@@ -29,13 +36,27 @@ public partial class Player : CharacterBody2D
     }
 
     public void HandleAnimation()
-    { 
-        
-    }
-
-    public override void _PhysicsProcess(double delta)
     {
-        HandleDirection();
-        HandleMove();
+        if (moveDirection.Length() == 0)
+        {
+            animatedSprite2D.Stop();
+            return;
+        }
+
+        if (moveDirection.Y != 0)
+        {
+            if (moveDirection.Y < 0)
+                animatedSprite2D.Play("walkUp");
+            if (moveDirection.Y > 0)
+                animatedSprite2D.Play("walkDown");
+        }
+        else {
+            if (moveDirection.X < 0)
+                animatedSprite2D.Play("walkLeft");
+            if (moveDirection.X > 0)
+                animatedSprite2D.Play("walkRight");
+        }
+
+
     }
 }

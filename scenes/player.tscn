@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://dh8l7s7jbeobk"]
+[gd_scene load_steps=20 format=3 uid="uid://dh8l7s7jbeobk"]
 
 [ext_resource type="Script" path="res://scripts/Player.cs" id="1_rs2g3"]
 [ext_resource type="Texture2D" uid="uid://cqw6ygqjab1mx" path="res://arts/charactor/player/walk_down_1.png" id="1_xmqnb"]
@@ -89,10 +89,19 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m4cn0"]
+size = Vector2(10, 5)
+
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_rs2g3")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 10)
 sprite_frames = SubResource("SpriteFrames_k711y")
 animation = &"walkDown"
-frame_progress = 0.126466
+frame_progress = 0.785912
+offset = Vector2(0, -10)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 7.5)
+shape = SubResource("RectangleShape2D_m4cn0")

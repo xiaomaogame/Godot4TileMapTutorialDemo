@@ -5,33 +5,65 @@ using System;
 public partial class Player : CharacterBody2D
 {
     [Export]
-    private int speed = 20;
+    public int Speed = 20;
+
+    [Export]
+    public TileMap MyTileMap;
+
     private Vector2 moveDirection;
 
     private AnimatedSprite2D animatedSprite2D;
+    private NavigationAgent2D navigationAgent2D;
 
     public override void _Ready()
     {
+
         animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+        navigationAgent2D = GetNode<NavigationAgent2D>("NavigationAgent2D");
+        navigationAgent2D.SetNavigationMap(MyTileMap.GetNavigationMap(0));
     }
 
 
     public override void _PhysicsProcess(double delta)
     {
-        HandleDirection();
+        HandleMouseKey();
+        //HandleInputKey();
         HandleMove();
         HandleAnimation();
     }
 
-    public void HandleDirection()
+    public void HandleMouseKey()
+    {
+        if (Input.IsActionJustPressed("left_mouse"))
+        {
+      
+            navigationAgent2D.TargetPosition = GetGlobalMousePosition();
+            GD.Print(navigationAgent2D.TargetPosition);
+        }
+
+        if (!navigationAgent2D.IsNavigationFinished())
+        {
+            moveDirection = navigationAgent2D.GetNextPathPosition() - Position;
+            GD.Print(moveDirection);
+        }
+        else
+        {
+            Velocity = Vector2.Zero;
+            moveDirection = Vector2.Zero;
+        }
+
+    }
+
+    public void HandleInputKey()
     {
         Vector2 inputDirection = Input.GetVector("my_left", "my_right", "my_up", "my_down");
-        moveDirection = inputDirection.Normalized();
+        moveDirection = inputDirection;
     }
 
     public void HandleMove()
     {
-        base.Velocity = moveDirection * speed;
+        base.Velocity = moveDirection.Normalized() * Speed;
+     
         MoveAndSlide();
     }
 
@@ -43,6 +75,15 @@ public partial class Player : CharacterBody2D
             return;
         }
 
+        if (Mathf.Abs(moveDirection.X) > Mathf.Abs(moveDirection.Y))
+        {
+            moveDirection.Y = 0;
+        }
+        else
+        {
+            moveDirection.X = 0;
+        }
+
         if (moveDirection.Y != 0)
         {
             if (moveDirection.Y < 0)
@@ -50,7 +91,8 @@ public partial class Player : CharacterBody2D
             if (moveDirection.Y > 0)
                 animatedSprite2D.Play("walkDown");
         }
-        else {
+        else
+        {
             if (moveDirection.X < 0)
                 animatedSprite2D.Play("walkLeft");
             if (moveDirection.X > 0)

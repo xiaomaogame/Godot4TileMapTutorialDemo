@@ -109,6 +109,7 @@ shape = SubResource("RectangleShape2D_m4cn0")
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 path_desired_distance = 10.0
 avoidance_enabled = true
+neighbor_distance = 461.0
 debug_enabled = true
 debug_use_custom = true
 debug_path_custom_line_width = 3.0

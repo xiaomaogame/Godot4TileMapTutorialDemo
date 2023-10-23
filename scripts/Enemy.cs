@@ -17,7 +17,7 @@ public partial class Enemy : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
     {
-        if (Input.IsActionJustPressed("left_mouse"))
+        if (Input.IsActionJustPressed("right_mouse"))
         {
             Agent.TargetPosition = GetGlobalMousePosition();
         }
@@ -29,16 +29,19 @@ public partial class Enemy : CharacterBody2D
             if (Velocity.X < 0)
             {
                 AniPlayer.Play("walk_left");
-            }else if (Velocity.X > 0)
+            }
+            else if (Velocity.X > 0)
             {
                 AniPlayer.Play("walk_right");
             }
-            MoveAndSlide();
+         
         }
         else
         {
             Velocity = Vector2.Zero;
+            AniPlayer.Play("idle_right");
             //moveDirection = Vector2.Zero;
         }
+        MoveAndSlide();
     }
 }

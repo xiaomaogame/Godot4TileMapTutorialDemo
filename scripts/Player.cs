@@ -21,8 +21,8 @@ public partial class Player : CharacterBody2D
     private NavigationAgent2D navigationAgent2D;
 
 
-    int layer = 5;
-    int landLayer = 2;
+    int layer = 4;
+    int landLayer = 3;
     Vector2I atlatsCoors = new Vector2I(6, 2);
     private Dictionary<Vector2I, int> placeInfo = new Dictionary<Vector2I, int>();
 

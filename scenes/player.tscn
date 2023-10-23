@@ -105,3 +105,11 @@ offset = Vector2(0, -10)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 7.5)
 shape = SubResource("RectangleShape2D_m4cn0")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 10.0
+avoidance_enabled = true
+neighbor_distance = 461.0
+debug_enabled = true
+debug_use_custom = true
+debug_path_custom_line_width = 3.0
